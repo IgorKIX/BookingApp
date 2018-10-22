@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "80387182048",
+    "firebase_url": "https://androidbookingapp.firebaseio.com",
+    "project_id": "androidbookingapp",
+    "storage_bucket": "androidbookingapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:80387182048:android:1c9f7efa4d631a11",
+        "android_client_info": {
+          "package_name": "com.example.igima.bookingapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "80387182048-mj2p0458ahajv69avqau6qrbqv2p84fl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.igima.bookingapp",
+            "certificate_hash": "fe3d7847ec9eb8f20237d5c45f6627ba9cdafbc7"
+          }
+        },
+        {
+          "client_id": "80387182048-k7cr768r8g3u1o4204sfdge8n94ibnrc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLiP9WRlVWjp-nS3xxkpc24D-V5fnK6h4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "80387182048-k7cr768r8g3u1o4204sfdge8n94ibnrc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
