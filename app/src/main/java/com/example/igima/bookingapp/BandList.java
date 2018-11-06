@@ -4,9 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.igima.bookingapp.Interface.ItemClickListener;
@@ -15,7 +13,6 @@ import com.example.igima.bookingapp.ViewHolder.BandViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 
 public class BandList extends AppCompatActivity {
 
@@ -24,9 +21,11 @@ public class BandList extends AppCompatActivity {
 
     FirebaseDatabase database;
     DatabaseReference bandList;
-    FirebaseRecyclerAdapter<Band, BandViewHolder> adapter;
 
     String categoryId="";
+
+    FirebaseRecyclerAdapter<Band,BandViewHolder> adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,16 +35,15 @@ public class BandList extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         bandList = database.getReference("Bands");
 
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_band);
+        recyclerView = (RecyclerView)findViewById(R.id.recycler_band);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
         //Get intent
-        if(getIntent() != null){
+        if(getIntent() != null)
             categoryId = getIntent().getStringExtra("CategoryId");
-        }
-        if(!categoryId.isEmpty() && categoryId != null) {
+        if(!categoryId.isEmpty() && categoryId != null){
             loadListBand(categoryId);
         }
     }
@@ -69,4 +67,7 @@ public class BandList extends AppCompatActivity {
                 });
             }
         };
-}}
+        //Set adapter
+        recyclerView.setAdapter(adapter);
+    }
+}

@@ -93,8 +93,8 @@ public class Home extends AppCompatActivity
                 viewHolder.setItemClickListener(new ItemClickListener() {
                     @Override
                     public void onClick(View view, int position, boolean isLongClick) {
-                        //Get category id and send to new activity
-                        Intent bandList = new Intent(Home.this,BandList.class);
+                        //Get categoryId and send to new activity
+                        Intent bandList = new Intent(Home.this, BandList.class);
                         bandList.putExtra("CategoryId",adapter.getRef(position).getKey());
                         startActivity(bandList);
                     }

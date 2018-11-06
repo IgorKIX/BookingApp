@@ -1,4 +1,6 @@
 package com.example.igima.bookingapp.ViewHolder;
+
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
@@ -14,14 +16,14 @@ public class BandViewHolder extends RecyclerView.ViewHolder implements View.OnCl
 
     public void setItemClickListener(ItemClickListener itemClickListener) {
         this.itemClickListener = itemClickListener;
+    }
+
+    public BandViewHolder(@NonNull View itemView) {
+        super(itemView);
 
         band_name = (TextView) itemView.findViewById(R.id.band_name);
 
         itemView.setOnClickListener(this);
-    }
-
-    public BandViewHolder(View itemView) {
-        super(itemView);
     }
 
     @Override
