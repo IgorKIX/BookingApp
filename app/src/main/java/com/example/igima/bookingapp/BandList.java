@@ -1,5 +1,6 @@
 package com.example.igima.bookingapp;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -62,7 +63,10 @@ public class BandList extends AppCompatActivity {
                 viewHolder.setItemClickListener(new ItemClickListener() {
                     @Override
                     public void onClick(View view, int position, boolean isLongClick) {
-                        Toast.makeText(BandList.this, ""+local.getName(), Toast.LENGTH_SHORT).show();
+                        Intent bandDetail = new Intent(BandList.this,BandDetail.class);
+                        //Sending bandId to new activity
+                        bandDetail.putExtra("BandId",adapter.getRef(position).getKey());
+                        startActivity(bandDetail);
                     }
                 });
             }
