@@ -1,7 +1,8 @@
 package com.example.igima.bookingapp.Model;
-
+//TODO:implement id
 public class User {
     //Capital letters like in database
+    private String Id;
     private String Name;
     private String Password;
 
@@ -27,5 +28,9 @@ public class User {
 
     public void setPassword(String password) {
         Password = password;
+    }
+
+    public String getId() {
+        return Id;
     }
 }

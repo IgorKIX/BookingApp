@@ -5,10 +5,14 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.NumberPicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.igima.bookingapp.Database.Database;
 import com.example.igima.bookingapp.Model.Band;
+import com.example.igima.bookingapp.Model.Order;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -27,6 +31,8 @@ public class BandDetail extends AppCompatActivity {
     FirebaseDatabase database;
     DatabaseReference bands;
 
+    Band currentBand;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +48,20 @@ public class BandDetail extends AppCompatActivity {
         numberPicker.setMaxValue(4);
 
         btnCart = (FloatingActionButton) findViewById(R.id.btnCart);
+
+        btnCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new Database(getBaseContext()).addToCart(new Order(
+                        bandId,
+                        currentBand.getName(),
+                        Integer.toString(numberPicker.getValue()),
+                        currentBand.getPrice(),
+                        currentBand.getDiscount()
+                ));
+                Toast.makeText(BandDetail.this, "Added to Cart", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         band_description = (TextView) findViewById(R.id.band_description);
         band_name = (TextView) findViewById(R.id.band_name);
@@ -61,13 +81,13 @@ public class BandDetail extends AppCompatActivity {
         bands.child(bandId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Band band = dataSnapshot.getValue(Band.class);
+                currentBand = dataSnapshot.getValue(Band.class);
 
-                collapsingToolbarLayout.setTitle(band.getName());
+                collapsingToolbarLayout.setTitle(currentBand.getName());
 
-                band_price.setText(band.getPrice());
-                band_name.setText(band.getName());
-                band_description.setText(band.getDescription());
+                band_price.setText(currentBand.getPrice());
+                band_name.setText(currentBand.getName());
+                band_description.setText(currentBand.getDescription());
             }
 
             @Override
