@@ -14,14 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <EditText
-            android:id="@+id/editPhone"
-            android:hint="Phone Number"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="phone"
-            android:text="0988123344" />
 
         <EditText
             android:id="@+id/editName"

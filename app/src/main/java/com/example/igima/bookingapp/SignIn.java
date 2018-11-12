@@ -19,7 +19,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class SignIn extends AppCompatActivity {
-    EditText editPhone, editPassword;
+    EditText  editName, editPassword;
     Button btnSignIn;
 
     @Override
@@ -27,8 +27,8 @@ public class SignIn extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
+        editName = (EditText) findViewById(R.id.editName);
         editPassword = (EditText) findViewById(R.id.editPassword);
-        editPhone = (EditText) findViewById(R.id.editPhone);
 
         btnSignIn = (Button) findViewById(R.id.btnSignIn);
 
@@ -41,19 +41,27 @@ public class SignIn extends AppCompatActivity {
             public void onClick(View v) {
 
                 final ProgressDialog mDialog = new ProgressDialog(SignIn.this);
-                mDialog.setMessage("Please waiting...");
+                mDialog.setMessage("Please wait...");
                 mDialog.show();
 
                 table_user.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         //Check if user exist in database
-                        if(dataSnapshot.child(editPhone.getText().toString()).exists()) {
-                            //Get user information
+                        if(dataSnapshot.child(editName.getText().toString()).exists()) {
+                            //Temp user to check password
                             mDialog.dismiss();
-                            User user = dataSnapshot.child(editPhone.getText().toString()).getValue(User.class);
-                            if (user.getPassword().equals(editPassword.getText().toString())) {
-                                Intent homeIntent = new Intent(SignIn.this,Home.class);
+                            User temp = dataSnapshot.child(editName.getText().toString()).getValue(User.class);
+                            if (temp.getPassword().equals(editPassword.getText().toString())) {
+                                User user = new User(editName.getText().toString(),
+                                        temp.getName(),
+                                        temp.getPassword(),
+                                        temp.getNif(),
+                                        temp.getCardNumber(),
+                                        temp.getCardType(),
+                                        temp.getCardValidity());
+
+                                Intent homeIntent = new Intent(SignIn.this, Home.class);
                                 Common.currentUser = user;
                                 startActivity(homeIntent);
                                 finish();

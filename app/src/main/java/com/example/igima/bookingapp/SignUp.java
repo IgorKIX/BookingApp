@@ -18,7 +18,8 @@ import com.google.firebase.database.ValueEventListener;
 
 public class SignUp extends AppCompatActivity {
 
-    EditText editPhone, editName, editPassword;
+    EditText editUsername, editName, editPassword, editNif,
+            editCardType, editCardNumber, editCardValidity;
     Button btnSignUp;
 
     @Override
@@ -26,9 +27,13 @@ public class SignUp extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        editPassword = (EditText) findViewById(R.id.editPassword);
         editName = (EditText) findViewById(R.id.editName);
-        editPhone = (EditText) findViewById(R.id.editPhone);
+        editUsername = (EditText) findViewById(R.id.editUsername);
+        editPassword = (EditText) findViewById(R.id.editPassword);
+        editNif = (EditText) findViewById(R.id.editNif);
+        editCardType = (EditText) findViewById(R.id.editCardType);
+        editCardNumber = (EditText) findViewById(R.id.editCardNumber);
+        editCardValidity = (EditText) findViewById(R.id.editCardValidity);
 
         btnSignUp = (Button) findViewById(R.id.btnSignUp);
 
@@ -40,20 +45,27 @@ public class SignUp extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 final ProgressDialog mDialog = new ProgressDialog(SignUp.this);
-                mDialog.setMessage("Please waiting...");
+                mDialog.setMessage("Please wait...");
                 mDialog.show();
 
                 table_user.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         //Check if already exist
-                        if(dataSnapshot.child(editPhone.getText().toString()).exists()){
+                        if(dataSnapshot.hasChild(editUsername.getText().toString())){
                             mDialog.dismiss();
-                            Toast.makeText(SignUp.this, "Phone number already register,", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignUp.this, "Username already registered", Toast.LENGTH_SHORT).show();
                         } else {
                             mDialog.dismiss();
-                            User user = new User(editName.getText().toString(),editPassword.getText().toString());
-                            table_user.child(editPhone.getText().toString()).setValue(user);
+                            User user = new User(
+                                    editUsername.getText().toString(),
+                                    editName.getText().toString(),
+                                    editPassword.getText().toString(),
+                                    editNif.getText().toString(),
+                                    editCardNumber.getText().toString(),
+                                    editCardType.getText().toString(),
+                                    editCardValidity.getText().toString());
+                            table_user.child(editUsername.getText().toString()).setValue(user);
                             Toast.makeText(SignUp.this, "Sign up succesfully!", Toast.LENGTH_SHORT).show();
                             finish();
                         }

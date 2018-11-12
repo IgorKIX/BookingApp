@@ -143,6 +143,10 @@ public class Home extends AppCompatActivity
             Intent orderIntent = new Intent(Home.this,Ordered.class);
             startActivity(orderIntent);
 
+        } else if (id == R.id.nav_tickets) {
+            Intent ticketIntent = new Intent(Home.this,Tickets.class);
+            startActivity(ticketIntent);
+
         } else if (id == R.id.nav_log_out) {
             Intent mainAct = new Intent(Home.this,MainActivity.class);
             mainAct.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_CLEAR_TASK);

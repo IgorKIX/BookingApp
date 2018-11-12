@@ -3,22 +3,20 @@ package com.example.igima.bookingapp.ViewHolder;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.igima.bookingapp.Interface.ItemClickListener;
 import com.example.igima.bookingapp.R;
 
-public class OrderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-    public TextView txtOrderedId;
+public class TicketViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public TextView ticket;
 
     private ItemClickListener itemClickListener;
 
-    public OrderViewHolder(@NonNull View itemView) {
+    public TicketViewHolder(@NonNull View itemView) {
         super(itemView);
 
-        txtOrderedId = (TextView) itemView.findViewById(R.id.order_id);
+        ticket = (TextView) itemView.findViewById(R.id.ticket_id);
 
         itemView.setOnClickListener(this);
     }

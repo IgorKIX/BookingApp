@@ -5,13 +5,22 @@ public class User {
     private String Id;
     private String Name;
     private String Password;
+    private String Nif;
+    private String CardNumber;
+    private String CardType;
+    private String CardValidity;
 
     public User() {
     }
 
-    public User(String name, String password) {
+    public User(String id, String name, String password, String nif, String cardNumber, String cardType, String cardValidity) {
+        Id = id;
         Name = name;
         Password = password;
+        Nif = nif;
+        CardNumber = cardNumber;
+        CardType = cardType;
+        CardValidity = cardValidity;
     }
 
     public String getName() {
@@ -32,5 +41,21 @@ public class User {
 
     public String getId() {
         return Id;
+    }
+
+    public String getNif() {
+        return Nif;
+    }
+
+    public String getCardNumber() {
+        return CardNumber;
+    }
+
+    public String getCardType() {
+        return CardType;
+    }
+
+    public String getCardValidity() {
+        return CardValidity;
     }
 }
