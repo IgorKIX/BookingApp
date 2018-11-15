@@ -34,6 +34,7 @@ public class Cart extends AppCompatActivity {
 
     FirebaseDatabase database;
     DatabaseReference requests;
+    DatabaseReference bands;
 
     List<Order> cart =  new ArrayList<>();
     CartAdapter adapter;
@@ -46,6 +47,7 @@ public class Cart extends AppCompatActivity {
         //Firebase
         database = FirebaseDatabase.getInstance();
         requests =  database.getReference("Requests");
+        bands = database.getReference("Bands");
 
         //Init
         recyclerView = (RecyclerView) findViewById(R.id.listCart);
@@ -72,16 +74,15 @@ public class Cart extends AppCompatActivity {
         alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //Create new request
-                Request request = new Request(
-                        Common.currentUser.getId(),
-                        Common.currentUser.getName(),
-                        txtTotalPrice.getText().toString(),
-                        cart);
-
-                //Submit to firebase
-                requests.child(String.valueOf(System.currentTimeMillis())).setValue(request);
-                new Database(getBaseContext()).cleanCart();
+                for(Order order:cart) {
+                    Request request = new Request(
+                            Common.currentUser.getId(),
+                            order.getProductId(),
+                            true);
+                    //Submit to firebase
+                    requests.child(String.valueOf(System.currentTimeMillis())).setValue(request);
+                    new Database(getBaseContext()).cleanCart();
+                }
                 Toast.makeText(Cart.this, "Thank you, you bought a ticket", Toast.LENGTH_SHORT).show();
                 finish();
             }

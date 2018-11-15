@@ -4,6 +4,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.Toast;
 
 import com.example.igima.bookingapp.Common.Common;
 import com.example.igima.bookingapp.Model.Request;
@@ -20,6 +22,7 @@ public class Ordered extends AppCompatActivity {
     FirebaseRecyclerAdapter<Request,OrderViewHolder> adapter;
     FirebaseDatabase database;
     DatabaseReference requests;
+    DatabaseReference bands;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +32,7 @@ public class Ordered extends AppCompatActivity {
         //Firebase
         database = FirebaseDatabase.getInstance();
         requests = database.getReference("Requests");
+        bands = database.getReference("Bands");
 
         recyclerView = (RecyclerView) findViewById(R.id.listOrders);
         recyclerView.setHasFixedSize(true);
@@ -43,12 +47,19 @@ public class Ordered extends AppCompatActivity {
                 Request.class,
                 R.layout.order_layout,
                 OrderViewHolder.class,
-                requests.orderByChild("phone").equalTo(id)//TODO:Change to id
+                requests.orderByChild("phone").equalTo(id)
         ) {
             @Override
             protected void populateViewHolder(OrderViewHolder viewHolder, Request model, int position) {
-                viewHolder.txtOrderedId.setText(adapter.getRef(position).getKey());
-
+                //TODO: Repair lack on orders + I don't know if it will show band name
+                String bandId = bands.child(adapter.getItem(position).getBandId()).getKey();
+                viewHolder.txtOrderedName.setText(bandId);
+                viewHolder.linearLayout.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(Ordered.this, "Here should start activity with QR", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         };
         recyclerView.setAdapter(adapter);

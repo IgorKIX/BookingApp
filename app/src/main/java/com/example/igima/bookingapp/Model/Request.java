@@ -3,50 +3,40 @@ package com.example.igima.bookingapp.Model;
 import java.util.List;
 
 public class Request {
-    private String id;
-    private String name;
-    private String total;
-    private List<Order> bands;
+    private String userId;
+    private String bandId;
+    private Boolean valid;
 
     public Request() {
     }
 
-    public Request(String id, String name, String total, List<Order> bands) {
-        this.id = id;
-        this.name = name;
-        this.total = total;
-        this.bands = bands;
+    public Request(String userId, String bandId, Boolean valid) {
+        this.userId = userId;
+        this.bandId = bandId;
+        this.valid = valid;
     }
 
-    public String getId() {
-        return id;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
-    public String getName() {
-        return name;
+    public String getBandId() {
+        return bandId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setBandId(String bandId) {
+        this.bandId = bandId;
     }
 
-    public String getTotal() {
-        return total;
+    public Boolean getValid() {
+        return valid;
     }
 
-    public void setTotal(String total) {
-        this.total = total;
-    }
-
-    public List<Order> getBands() {
-        return bands;
-    }
-
-    public void setBands(List<Order> bands) {
-        this.bands = bands;
+    public void setValid(Boolean valid) {
+        this.valid = valid;
     }
 }

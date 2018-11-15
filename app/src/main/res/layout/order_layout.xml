@@ -16,13 +16,14 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
+            android:id="@+id/bandNameBox"
             android:orientation="vertical"
             android:layout_weight="9"
             android:layout_width="0dp"
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/order_id"
+                android:id="@+id/order_name"
                 android:layout_marginLeft="10dp"
                 android:gravity="center_vertical|start"
                 android:text="band 01"
