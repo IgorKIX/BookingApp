@@ -66,6 +66,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
                     <TextView
                         android:id="@+id/band_name"
                         android:layout_marginTop="8dp"
@@ -75,6 +80,16 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
 
+                    <TextView
+                        android:id="@+id/date"
+                        android:layout_marginTop="8dp"
+                        android:paddingLeft="100dp"
+                        android:text="@string/date"
+                        android:textSize="15dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
                     <LinearLayout
                         android:id="@+id/layout_price"
                         android:orientation="horizontal"

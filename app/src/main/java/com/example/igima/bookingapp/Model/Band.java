@@ -1,17 +1,18 @@
 package com.example.igima.bookingapp.Model;
 
 public class Band {
-    private String Description, Discount, MenuId, Name, Price;
+    private String Description, Discount, MenuId, Name, Price, Date;
 
     public Band() {
     }
 
-    public Band(String description, String discount, String menuId, String name, String price) {
+    public Band(String description, String discount, String menuId, String name, String price, String date) {
         Description = description;
         Discount = discount;
         MenuId = menuId;
         Name = name;
         Price = price;
+        Date = date;
     }
 
     public String getDescription() {
@@ -49,4 +50,8 @@ public class Band {
     public void setPrice(String price) {
         Price = price;
     }
+
+    public String getDate() {        return Date;    }
+
+    public void setDate(String date) {        Date = date;    }
 }

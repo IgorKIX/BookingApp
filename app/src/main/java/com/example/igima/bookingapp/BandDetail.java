@@ -21,7 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class BandDetail extends AppCompatActivity {
 
-    TextView band_name, band_price, band_description;
+    TextView band_name, band_price, band_description, date;
     CollapsingToolbarLayout collapsingToolbarLayout;
     FloatingActionButton btnCart;
     NumberPicker numberPicker;
@@ -57,7 +57,8 @@ public class BandDetail extends AppCompatActivity {
                         currentBand.getName(),
                         Integer.toString(numberPicker.getValue()),
                         currentBand.getPrice(),
-                        currentBand.getDiscount()
+                        currentBand.getDiscount(),
+                        currentBand.getDate()
                 ));
                 Toast.makeText(BandDetail.this, "Added to Cart", Toast.LENGTH_SHORT).show();
             }
@@ -66,6 +67,7 @@ public class BandDetail extends AppCompatActivity {
         band_description = (TextView) findViewById(R.id.band_description);
         band_name = (TextView) findViewById(R.id.band_name);
         band_price = (TextView) findViewById(R.id.band_price);
+        date = (TextView) findViewById(R.id.date);
 
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing);
 
@@ -88,6 +90,7 @@ public class BandDetail extends AppCompatActivity {
                 band_price.setText(currentBand.getPrice());
                 band_name.setText(currentBand.getName());
                 band_description.setText(currentBand.getDescription());
+                date.setText(currentBand.getDate());
             }
 
             @Override

@@ -6,16 +6,18 @@ public class Order {
     private String Quantity;
     private String Price;
     private String Discount;
+    private String Date;
 
     public Order() {
     }
 
-    public Order(String productId, String productName, String quantity, String price, String discount) {
+    public Order(String productId, String productName, String quantity, String price, String discount, String date) {
         ProductId = productId;
         ProductName = productName;
         Quantity = quantity;
         Price = price;
         Discount = discount;
+        Date = date;
     }
 
     public String getProductId() {
@@ -57,4 +59,8 @@ public class Order {
     public void setDiscount(String discount) {
         Discount = discount;
     }
+
+    public String getDate() {        return Date;    }
+
+    public void setDate(String date) {        Date = date;    }
 }

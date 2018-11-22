@@ -1,6 +1,7 @@
 package com.example.igima.bookingapp;
 
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,6 +9,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,8 +19,14 @@ import com.example.igima.bookingapp.Database.Database;
 import com.example.igima.bookingapp.Model.Order;
 import com.example.igima.bookingapp.Model.Request;
 import com.example.igima.bookingapp.ViewHolder.CartAdapter;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -39,6 +48,13 @@ public class Cart extends AppCompatActivity {
     List<Order> cart =  new ArrayList<>();
     CartAdapter adapter;
 
+    DataSnapshot dataSnapshot;
+
+    private ImageView imageView;
+    private TextView ticket_id;
+    private EditText editUsername;
+    String id_ticket;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +72,7 @@ public class Cart extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
 
         txtTotalPrice = (TextView) findViewById(R.id.total);
+        editUsername = (EditText) findViewById(R.id.editUsername);
         btnPlace = (Button) findViewById(R.id.btnPlaceOrder);
 
         btnPlace.setOnClickListener(new View.OnClickListener() {
@@ -64,7 +81,8 @@ public class Cart extends AppCompatActivity {
                 showAlertDialog();
             }
         });
-
+        //QR image
+        imageView = findViewById(R.id.imageView);
         loadListBand();
     }
 
@@ -74,7 +92,7 @@ public class Cart extends AppCompatActivity {
         alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                for(Order order:cart) {
+                for (Order order : cart) {
                     Request request = new Request(
                             Common.currentUser.getId(),
                             order.getProductId(),
@@ -83,12 +101,28 @@ public class Cart extends AppCompatActivity {
                     requests.child(String.valueOf(System.currentTimeMillis())).setValue(request);
                     new Database(getBaseContext()).cleanCart();
                 }
-                Toast.makeText(Cart.this, "Thank you, you bought a ticket", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Cart.this, "Thank you, your purchase has been successful.", Toast.LENGTH_SHORT).show();
+
+                //Creation of QR code
+                ticket_id = (TextView) findViewById(R.id.ticket_id);
+                id_ticket = ticket_id.getText().toString()+dataSnapshot.child(editUsername.getText().toString());
+                if (id_ticket != null) {
+                    MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
+                    try {
+                        BitMatrix bitMatrix = multiFormatWriter.encode(id_ticket, BarcodeFormat.QR_CODE, 500, 500);
+                        BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
+                        Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
+                        imageView.setImageBitmap(bitmap);
+                    } catch (WriterException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+                ////////
                 finish();
             }
         });
-
-        alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+        alertDialog.setNegativeButton("Something went wrong, try again.", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();

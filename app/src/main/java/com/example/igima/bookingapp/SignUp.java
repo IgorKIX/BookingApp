@@ -10,6 +10,12 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.igima.bookingapp.Model.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -18,65 +24,74 @@ import com.google.firebase.database.ValueEventListener;
 
 public class SignUp extends AppCompatActivity {
 
-    EditText editUsername, editName, editPassword, editNif,
+    private EditText editUsername, editName, editPassword, editNif,
             editCardType, editCardNumber, editCardValidity;
-    Button btnSignUp;
+    private Button btnSignUp;
+
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        editName = (EditText) findViewById(R.id.editName);
-        editUsername = (EditText) findViewById(R.id.editUsername);
-        editPassword = (EditText) findViewById(R.id.editPassword);
-        editNif = (EditText) findViewById(R.id.editNif);
-        editCardType = (EditText) findViewById(R.id.editCardType);
-        editCardNumber = (EditText) findViewById(R.id.editCardNumber);
-        editCardValidity = (EditText) findViewById(R.id.editCardValidity);
+        editUsername = findViewById(R.id.editUsername);
+        editName = findViewById(R.id.editName);
+        editPassword = findViewById(R.id.editPassword);
+        editNif = findViewById(R.id.editNif);
+        editCardType = findViewById(R.id.editCardType);
+        editCardNumber = findViewById(R.id.editCardNumber);
+        editCardValidity = findViewById(R.id.editCardValidity);
 
-        btnSignUp = (Button) findViewById(R.id.btnSignUp);
+        mAuth = FirebaseAuth.getInstance();
 
-        //Init Firebase
-        final FirebaseDatabase dataBase = FirebaseDatabase.getInstance();
-        final DatabaseReference table_user = dataBase.getReference("User");
+        btnSignUp = findViewById(R.id.btnSignUp);
 
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                final ProgressDialog mDialog = new ProgressDialog(SignUp.this);
-                mDialog.setMessage("Please wait...");
-                mDialog.show();
+            public void onClick(View view) {
+                final String username = editUsername.getText().toString();
+                final String name = editName.getText().toString();
+                final String password = editPassword.getText().toString();
+                final String nif = editNif.getText().toString();
+                final String c_num = editCardNumber.getText().toString();
+                final String c_type = editCardType.getText().toString();
+                final String c_val = editCardValidity.getText().toString();
 
-                table_user.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        //Check if already exist
-                        if(dataSnapshot.hasChild(editUsername.getText().toString())){
-                            mDialog.dismiss();
-                            Toast.makeText(SignUp.this, "Username already registered", Toast.LENGTH_SHORT).show();
-                        } else {
-                            mDialog.dismiss();
-                            User user = new User(
-                                    editUsername.getText().toString(),
-                                    editName.getText().toString(),
-                                    editPassword.getText().toString(),
-                                    editNif.getText().toString(),
-                                    editCardNumber.getText().toString(),
-                                    editCardType.getText().toString(),
-                                    editCardValidity.getText().toString());
-                            table_user.child(editUsername.getText().toString()).setValue(user);
-                            Toast.makeText(SignUp.this, "Sign up succesfully!", Toast.LENGTH_SHORT).show();
-                            finish();
-                        }
-                    }
+                if (username.isEmpty() || name.isEmpty() || password.isEmpty() || nif.isEmpty() || c_num.isEmpty() || c_type.isEmpty() || c_val.isEmpty()) {
+                    Toast.makeText(SignUp.this, "Please fill in all the gaps.", Toast.LENGTH_SHORT).show();
+                    setContentView(R.layout.content_home);
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
+                } else {
+                    CreateUser(username, password, name, nif, c_num, c_type, c_val);
+                }
             }
         });
+    }
+
+    private void CreateUser(final String username, final String password, final String name, final String nif, final String c_num, final String c_type, final String c_val) {
+        mAuth.createUserWithEmailAndPassword(username,password)
+                .addOnCompleteListener(SignUp.this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if(task.isSuccessful()){
+                            User user = new User(username, name, password, nif, c_num, c_type, c_val);
+                            FirebaseDatabase.getInstance().getReference("Users")
+                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                    .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if(task.isSuccessful()){
+                                        Toast.makeText(SignUp.this, "Account created." , Toast.LENGTH_SHORT).show();
+                                    }else{
+                                        Toast.makeText(SignUp.this, "Please try again.." + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                        } else {
+                            Toast.makeText(SignUp.this, "Please try again.." + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 }

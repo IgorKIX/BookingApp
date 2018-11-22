@@ -20,9 +20,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Name"
+            android:hint="e-mail"
             android:inputType="textPersonName"
-            android:text="Kurt" />
+            android:text="mau123@gmail.com" />
 
         <EditText
             android:id="@+id/editPassword"
@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPassword"
-            android:text="1234" />
+            android:text="123456ajk" />
     </LinearLayout>
 
 
