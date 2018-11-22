@@ -28,8 +28,7 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class Home extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class Home extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     FirebaseDatabase dataBase;
     DatabaseReference category;
@@ -71,10 +70,10 @@ public class Home extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        //Set name for user
+      /*  //Set name for user
         View headerView = navigationView.getHeaderView(0);
         textFullName = (TextView) headerView.findViewById(R.id.textFullName);
-        textFullName.setText(Common.currentUser.getName());
+        textFullName.setText(Common.currentUser.getName());*/
 
         //Load menu
         recycler_menu = (RecyclerView) findViewById(R.id.recycler_menu);

@@ -16,13 +16,12 @@
 
 
         <EditText
-            android:id="@+id/editName"
+            android:id="@+id/editUsername"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="e-mail"
-            android:inputType="textPersonName"
-            android:text="mau123@gmail.com" />
+            android:inputType="textEmailAddress" />
 
         <EditText
             android:id="@+id/editPassword"
@@ -30,8 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="textPassword"
-            android:text="123456ajk" />
+            android:inputType="textPassword" />
     </LinearLayout>
 
 
