@@ -22,7 +22,7 @@ import java.util.Locale;
 
 class CartViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-    public TextView txt_cart_name, txt_price;
+    public TextView txt_cart_name, txt_price, date;
     public ImageView img_cart_count;
 
     private ItemClickListener itemClickListener;
@@ -36,6 +36,7 @@ class CartViewHolder extends RecyclerView.ViewHolder implements View.OnClickList
 
         txt_cart_name = (TextView) itemView.findViewById(R.id.cart_item_name);
         txt_price = (TextView) itemView.findViewById(R.id.cart_item_price);
+        date = (TextView) itemView.findViewById(R.id.date);
         img_cart_count = (ImageView) itemView.findViewById(R.id.cart_item_count);
 
     }
@@ -75,6 +76,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartViewHolder> {
         cartViewHolder.txt_price.setText(fmt.format(price));
 
         cartViewHolder.txt_cart_name.setText(listData.get(i).getProductName());
+        cartViewHolder.date.setText(listData.get(i).getDate());
     }
 
     @Override

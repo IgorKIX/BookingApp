@@ -84,9 +84,11 @@ public class Cart extends AppCompatActivity {
                     Request request = new Request(
                             uid,
                             order.getProductId(),
-                            true);
+                            true,
+                            order.getDate(),
+                            Integer.parseInt(order.getQuantity()));
                     //Submit to firebase
-                    requests.child(String.valueOf(System.currentTimeMillis())).setValue(request);
+                    requests.child(String.format("%s-%s-%s-%d", uid, order.getDate(), order.getQuantity(), System.currentTimeMillis())).setValue(request);
                     new Database(getBaseContext()).cleanCart();
                 }
                 Toast.makeText(Cart.this, "Thank you, you bought a ticket", Toast.LENGTH_SHORT).show();

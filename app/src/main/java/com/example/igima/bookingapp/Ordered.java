@@ -57,7 +57,6 @@ public class Ordered extends AppCompatActivity {
         ) {
             @Override
             protected void populateViewHolder(final OrderViewHolder viewHolder, Request model, int position) {
-                //TODO: Repair lack on orders + I don't know if it will show band name
 
                 final String[] band_name = new String[1];
                 final String[] band_date = new String[1];
@@ -70,6 +69,12 @@ public class Ordered extends AppCompatActivity {
                                 band_date[0] = band.getDate();
                                 viewHolder.txtOrderedName.setText(band_name[0]);
                                 viewHolder.txtOrderedDate.setText(band_date[0]);
+                                viewHolder.linearLayout.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Toast.makeText(Ordered.this, "Here should start activity with QR", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
                             }
 
                             @Override
@@ -80,12 +85,7 @@ public class Ordered extends AppCompatActivity {
 
                 //String bandId = bands.child(model.getBandId()).child("Name").getKey();
 
-                viewHolder.linearLayout.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(Ordered.this, "Here should start activity with QR", Toast.LENGTH_SHORT).show();
-                    }
-                });
+
             }
         };
         recyclerView.setAdapter(adapter);
