@@ -13,6 +13,7 @@ import com.example.igima.bookingapp.R;
 
 public class OrderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     public TextView txtOrderedName;
+    public TextView txtOrderedDate;
     public LinearLayout linearLayout;
 
     private ItemClickListener itemClickListener;
@@ -21,6 +22,7 @@ public class OrderViewHolder extends RecyclerView.ViewHolder implements View.OnC
         super(itemView);
 
         txtOrderedName = (TextView) itemView.findViewById(R.id.order_name);
+        txtOrderedDate = (TextView) itemView.findViewById(R.id.order_date);
         linearLayout = (LinearLayout) itemView.findViewById(R.id.bandNameBox);
 
         itemView.setOnClickListener(this);

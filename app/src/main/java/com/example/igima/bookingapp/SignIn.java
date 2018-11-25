@@ -32,14 +32,7 @@ public class SignIn extends AppCompatActivity {
 
         btnSignIn = findViewById(R.id.btnSignIn);
 
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                if(firebaseAuth.getCurrentUser() == null){
-                    Toast.makeText(SignIn.this, "Something went wrong, try again.", Toast.LENGTH_SHORT).show();
-                }
-            }
-        };
+
 
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,10 +42,6 @@ public class SignIn extends AppCompatActivity {
         });
     }
 
-    protected void onStart(){
-        super.onStart();
-        mAuth.addAuthStateListener(mAuthListener);
-    }
 
     private void startSignIn(){
         String email = editUsername.getText().toString();
@@ -65,6 +54,9 @@ public class SignIn extends AppCompatActivity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
                         startActivity(new Intent(SignIn.this, Home.class));
+                    }
+                    else {
+                        Toast.makeText(SignIn.this, "Incorrect password or username.", Toast.LENGTH_SHORT).show();
                     }
                 }
             });

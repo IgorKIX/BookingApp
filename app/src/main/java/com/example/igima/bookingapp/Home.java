@@ -25,6 +25,7 @@ import com.example.igima.bookingapp.Interface.ItemClickListener;
 import com.example.igima.bookingapp.Model.Category;
 import com.example.igima.bookingapp.ViewHolder.MenuViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -32,6 +33,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
 
     FirebaseDatabase dataBase;
     DatabaseReference category;
+    private FirebaseAuth mAuth;
 
     TextView textFullName;
 
@@ -149,6 +151,7 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         } else if (id == R.id.nav_log_out) {
             Intent mainAct = new Intent(Home.this,MainActivity.class);
             mainAct.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK| Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            mAuth.getInstance().signOut();
             startActivity(mainAct);
 
         }
