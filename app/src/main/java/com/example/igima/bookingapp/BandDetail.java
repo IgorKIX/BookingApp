@@ -1,12 +1,14 @@
 package com.example.igima.bookingapp;
 
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +20,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import com.shawnlin.numberpicker.NumberPicker;
+
+import java.util.Locale;
 
 public class BandDetail extends AppCompatActivity {
 
@@ -38,14 +44,29 @@ public class BandDetail extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_band_detail);
 
+
+
+        numberPicker = (NumberPicker) findViewById(R.id.number_picker);
+
+        numberPicker.setDividerColor(ContextCompat.getColor(this, R.color.colorPrimary));
+        numberPicker.setDividerColorResource(R.color.colorPrimary);
+
+        numberPicker.setMaxValue(4);
+        numberPicker.setMinValue(1);
+        numberPicker.setValue(1);
+
+        numberPicker.setFadingEdgeEnabled(true);
+
+        numberPicker.setScrollerEnabled(true);
+
+        numberPicker.setWrapSelectorWheel(true);
+
+
+
+
         //Firebase
         database = FirebaseDatabase.getInstance();
         bands = database.getReference("Bands");
-
-        //init view
-        numberPicker = (NumberPicker) findViewById(R.id.number_button);
-        numberPicker.setMinValue(1);
-        numberPicker.setMaxValue(4);
 
         btnCart = (FloatingActionButton) findViewById(R.id.btnCart);
 
