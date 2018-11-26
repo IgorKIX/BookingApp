@@ -4,7 +4,9 @@ import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,6 +25,23 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
+import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
+import java.security.InvalidKeyException;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.util.Map;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+
+import static com.example.igima.bookingapp.rsa.getPublicKey;
+
 public class qr extends AppCompatActivity {
 
     private ImageView imageView;
@@ -31,12 +50,27 @@ public class qr extends AppCompatActivity {
     private DatabaseReference reference;
     private FirebaseDatabase database;
 
-    String id_ticket;
+//////////////////////
+    private String publicKey = "";
+    private String privateKey = "";
+    private byte[] encodeData = null;
+//////////////////////////
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qr);
+
+        /////////////////////////////////
+        Map<String, Object> keyMap = null;
+        try {
+            keyMap = rsa.initKey();
+            publicKey = getPublicKey(keyMap);
+            privateKey = rsa.getPrivateKey(keyMap);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        ////////////////////////////////
 
         final String uid = user.getUid();
         imageView = (ImageView) findViewById(R.id.qr_imageView);
@@ -44,9 +78,9 @@ public class qr extends AppCompatActivity {
         dates = (TextView) findViewById(R.id.qr_date);
         tickets = (TextView) findViewById(R.id.qr_num_tickets);
         database = FirebaseDatabase.getInstance();
-        reference =  database.getReference();
+        reference = database.getReference();
 
-        //Get Request_ID
+       /* //Get Request_ID
         Log.i(TELECOM_SERVICE, "U S U A R I O : "+ user.getUid());
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -74,8 +108,24 @@ public class qr extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        });
-        id_ticket = "Me la paso genial programando, simplemente me encanta";
+        });*/
+        //////////////////////////////////////////////////////////////////////////
+
+        String id_ticket = "Me la paso genial programando, simplemente me encanta";
+        String publicKey = null;
+        try {
+            publicKey = getPublicKey(keyMap);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        byte[] rsaData = id_ticket.getBytes();
+        try {
+            encodeData = rsa.encryptByPublicKey(rsaData, publicKey);
+            String encodeStr = new BigInteger(1, encodeData).toString();
+            id_ticket = encodeStr;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         //Creation of QR code
         if (id_ticket != null) {
             MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
@@ -89,5 +139,4 @@ public class qr extends AppCompatActivity {
             }
         }
     }
-
 }
