@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -26,8 +27,12 @@ import com.example.igima.bookingapp.Model.Category;
 import com.example.igima.bookingapp.ViewHolder.MenuViewHolder;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class Home extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -72,10 +77,41 @@ public class Home extends AppCompatActivity implements NavigationView.OnNavigati
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-      /*  //Set name for user
+        //Get user's name
         View headerView = navigationView.getHeaderView(0);
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        final String uid = user.getUid();
+        final String Users = "Users", name = "name";
         textFullName = (TextView) headerView.findViewById(R.id.textFullName);
-        textFullName.setText(Common.currentUser.getName());*/
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange (DataSnapshot dataSnapshot){
+                for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                    String tabla = userSnapshot.getKey();
+                    if (tabla.equals(Users)) {
+                        for (DataSnapshot usrSnapshot : userSnapshot.getChildren()) {
+                            String user_id = usrSnapshot.getKey();
+                            if (user_id.equals(uid)) {
+                                for (DataSnapshot usuarioSnapshot : usrSnapshot.getChildren()) {
+                                    String att = usuarioSnapshot.getKey();
+                                    if (att.equals(name)) {
+                                        String name = usuarioSnapshot.getValue().toString();
+                                        textFullName.setText(name);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
         //Load menu
         recycler_menu = (RecyclerView) findViewById(R.id.recycler_menu);

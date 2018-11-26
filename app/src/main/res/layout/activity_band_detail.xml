@@ -44,7 +44,6 @@
         app:useCompatPadding="true"></android.support.design.widget.FloatingActionButton>
 
     <android.support.v4.widget.NestedScrollView
-        android:id="@+id/nestedScrollView"
         android:clipToPadding="false"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -91,7 +90,6 @@
 
                 </LinearLayout>
                     <LinearLayout
-                        android:id="@+id/layout_price"
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">

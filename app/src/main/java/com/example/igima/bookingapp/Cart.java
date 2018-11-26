@@ -1,6 +1,7 @@
 package com.example.igima.bookingapp;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,14 +23,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.NumberFormat;
+import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 //TODO: Add working delete button
 public class Cart extends AppCompatActivity {
 
-    FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    FirebaseUser user = mAuth.getCurrentUser();
+    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     String uid = user.getUid();
 
     RecyclerView recyclerView;
@@ -40,7 +42,6 @@ public class Cart extends AppCompatActivity {
 
     FirebaseDatabase database;
     DatabaseReference requests;
-    DatabaseReference bands;
 
     List<Order> cart =  new ArrayList<>();
     CartAdapter adapter;
@@ -53,7 +54,6 @@ public class Cart extends AppCompatActivity {
         //Firebase
         database = FirebaseDatabase.getInstance();
         requests =  database.getReference("Requests");
-        bands = database.getReference("Bands");
 
         //Init
         recyclerView = (RecyclerView) findViewById(R.id.listCart);
@@ -77,7 +77,7 @@ public class Cart extends AppCompatActivity {
     private void showAlertDialog() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(Cart.this);
         alertDialog.setTitle("Are you sure?");
-        alertDialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+        alertDialog.setPositiveButton("Continue", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 for(Order order:cart) {
@@ -96,7 +96,7 @@ public class Cart extends AppCompatActivity {
             }
         });
 
-        alertDialog.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+        alertDialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();

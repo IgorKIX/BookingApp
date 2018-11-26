@@ -1,13 +1,14 @@
 package com.example.igima.bookingapp;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.igima.bookingapp.Common.Common;
 import com.example.igima.bookingapp.Model.Band;
 import com.example.igima.bookingapp.Model.Request;
 import com.example.igima.bookingapp.ViewHolder.OrderViewHolder;
@@ -72,7 +73,7 @@ public class Ordered extends AppCompatActivity {
                                 viewHolder.linearLayout.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
-                                        Toast.makeText(Ordered.this, "Here should start activity with QR", Toast.LENGTH_SHORT).show();
+                                        startActivity(new Intent(Ordered.this, qr.class));
                                     }
                                 });
                             }
@@ -82,10 +83,6 @@ public class Ordered extends AppCompatActivity {
 
                             }
                         });
-
-                //String bandId = bands.child(model.getBandId()).child("Name").getKey();
-
-
             }
         };
         recyclerView.setAdapter(adapter);

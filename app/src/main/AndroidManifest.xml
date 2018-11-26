@@ -28,6 +28,7 @@
         <activity android:name=".BandDetail" />
         <activity android:name=".Cart" />
         <activity android:name=".Ordered" />
+        <activity android:name=".qr"></activity>
     </application>
 
 </manifest>
