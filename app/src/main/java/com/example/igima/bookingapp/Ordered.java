@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.igima.bookingapp.Model.Band;
@@ -61,32 +62,36 @@ public class Ordered extends AppCompatActivity {
 
                 final String[] band_name = new String[1];
                 final String[] band_date = new String[1];
-                bands.child(model.getBandId()).addListenerForSingleValueEvent(
-                        new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                Band band = dataSnapshot.getValue(Band.class);
-                                band_name[0] = band.getName();
-                                band_date[0] = band.getDate();
-                                viewHolder.txtOrderedName.setText(band_name[0]);
-                                viewHolder.txtOrderedDate.setText(band_date[0]);
-                                viewHolder.linearLayout.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        Bundle b = new Bundle();
-                                        b.putString("ticket_id", adapter.getRef(position).getKey());
-                                        startActivity(new Intent(Ordered.this, qr.class)
-                                        .putExtras(b));
-                                        finish();
-                                    }
-                                });
-                            }
+                if(model.getValid()) {
+                    bands.child(model.getBandId()).addListenerForSingleValueEvent(
+                            new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    Band band = dataSnapshot.getValue(Band.class);
+                                    band_name[0] = band.getName();
+                                    band_date[0] = band.getDate();
+                                    viewHolder.txtOrderedName.setText(band_name[0]);
+                                    viewHolder.txtOrderedDate.setText(band_date[0]);
+                                    viewHolder.linearLayout.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            Bundle b = new Bundle();
+                                            b.putString("ticket_id", adapter.getRef(position).getKey());
+                                            startActivity(new Intent(Ordered.this, qr.class)
+                                                    .putExtras(b));
+                                            finish();
+                                        }
+                                    });
+                                }
 
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
 
-                            }
-                        });
+                                }
+                            });
+                } else {
+                    viewHolder.cardView.removeAllViews();
+                }
             }
         };
         recyclerView.setAdapter(adapter);

@@ -1,6 +1,7 @@
 package com.example.igima.bookingapp.ViewHolder;
 
 import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
@@ -15,6 +16,7 @@ public class OrderViewHolder extends RecyclerView.ViewHolder implements View.OnC
     public TextView txtOrderedName;
     public TextView txtOrderedDate;
     public LinearLayout linearLayout;
+    public CardView cardView;
 
     private ItemClickListener itemClickListener;
 
@@ -24,6 +26,7 @@ public class OrderViewHolder extends RecyclerView.ViewHolder implements View.OnC
         txtOrderedName = (TextView) itemView.findViewById(R.id.order_name);
         txtOrderedDate = (TextView) itemView.findViewById(R.id.order_date);
         linearLayout = (LinearLayout) itemView.findViewById(R.id.bandNameBox);
+        cardView = (CardView) itemView.findViewById(R.id.cardBand);
 
         itemView.setOnClickListener(this);
     }
